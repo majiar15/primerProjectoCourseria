@@ -7,8 +7,17 @@ exports.bicicleta_list = function(req, res) {
 }
 
 exports.bicicleta_create = function(req, res) {
-    let bici = new Bicicleta(req.body.id, req.body.color, req.body.modelo);
-    bici.ubicacion = [req.body.lat, req.body.lng];
+    let id = req.body.id;
+    let color = req.body.color;
+    let modelo = req.body.modelo;
+    let ubicacion = [req.body.lat, req.body.lng];
+    // console.log(id);
+    // console.log(color);
+    // console.log(modelo);
+    // console.log(ubicacion);    
+    let bici = new Bicicleta(id,color,modelo,ubicacion);
+    
+    console.log(bici);
     Bicicleta.add(bici);
     res.status(200).json({
         bicicleta: bici
