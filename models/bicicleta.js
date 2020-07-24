@@ -33,7 +33,7 @@ BicicletaSchema.statics.add = function(bici,cb) {
     this.create(bici,cb);
 }
 BicicletaSchema.statics.findByCode = function(aCode,cb) {
-    return this.findOne({code:aCode},cb);
+    return this.findOne({_id:aCode},cb);
 }
 BicicletaSchema.statics.removeByCode = function(aCode,cb) {
     return this.deleteOne({_id:aCode},cb);

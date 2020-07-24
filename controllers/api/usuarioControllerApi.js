@@ -9,8 +9,24 @@ exports.usuario_list = function(req,res) {
     });
 }
 exports.usuario_create = function(req,res) {
-        
-    let usuario = new Usuario({nombre: req.body.nombre});
+    if (req.body.password != req.body.confirm_password) {
+        res.status(400).send('las contraseñas no coinciden');
+    } else {
+        Usuario.create({nombre: req.body.nombre, email: req.body.email, password: req.body.password }, function(err, newUser) {
+            if (err) {
+                res.status(400).send('error al guardar el usuario')
+
+            } else {
+                res.status(200).json({
+                    ususario: newUser
+                })
+            }
+        });
+    }    
+
+
+
+    let usuario = new Usuario({nombre: req.body.nombre, email: req.body.email, password: req.body.password });
     
     usuario.save(function(err,newUsuario) {
         res.status(200).json(newUsuario);
