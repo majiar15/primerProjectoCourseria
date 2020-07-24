@@ -1,7 +1,7 @@
 let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 let BicicletaSchema = new Schema({
-    code: Number,
+    code: Number ,
     color: String,
     modelo: String,
     ubicacion: {
@@ -16,6 +16,7 @@ BicicletaSchema.method.toString = function() {
 }
 
 BicicletaSchema.statics.createInstance = function (code,color, modelo, ubicacion) {
+    
     return new this({
         code:code,
         color:color,
@@ -24,9 +25,10 @@ BicicletaSchema.statics.createInstance = function (code,color, modelo, ubicacion
     })
 }
 
-BicicletaSchema.statics.allBicis = function(cb) {
-    return this.find({},cb)
+BicicletaSchema.statics.allBicis = function(cb){
+    return this.find({},cb);
 }
+
 BicicletaSchema.statics.add = function(bici,cb) {
     this.create(bici,cb);
 }
@@ -34,7 +36,7 @@ BicicletaSchema.statics.findByCode = function(aCode,cb) {
     return this.findOne({code:aCode},cb);
 }
 BicicletaSchema.statics.removeByCode = function(aCode,cb) {
-    return this.deleteOne({code:aCode},cb);
+    return this.deleteOne({_id:aCode},cb);
 }
 
 module.exports = mongoose.model("bicicleta",BicicletaSchema);

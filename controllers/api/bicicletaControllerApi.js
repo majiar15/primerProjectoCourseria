@@ -1,40 +1,73 @@
 let Bicicleta = require('../../models/bicicleta');
 
 exports.bicicleta_list = function(req, res) {
-    res.status(200).json({
-        bicicleta: Bicicleta.allbicis
+    
+    let bicis = Bicicleta.allBicis(function(err, bicis){
+        if(err) {
+            console.log(err);
+            res.status(400).send("error al consultar");
+        }else{
+            res.status(200).json({
+                bicicleta: bicis
+            });
+        }
+        
     });
+   
 }
 
 exports.bicicleta_create = function(req, res) {
-    let id = req.body.id;
+    let code = req.body.code;
     let color = req.body.color;
     let modelo = req.body.modelo;
-    let ubicacion = [req.body.lat, req.body.lng];
-    // console.log(id);
-    // console.log(color);
-    // console.log(modelo);
-    // console.log(ubicacion);    
-    let bici = new Bicicleta(id,color,modelo,ubicacion);
     
-    console.log(bici);
-    Bicicleta.add(bici);
-    res.status(200).json({
-        bicicleta: bici
-    })
+    let bici = new Bicicleta({code,color,modelo});
+    bici.ubicacion = [req.body.lat, req.body.lng];
+    
+    Bicicleta.add(bici,(err,bicicleta)=>{
+        if(err){
+            console.log(err);
+            res.status(400).send(`error :${err}`);  
+        } 
+        else{
+            res.status(200).json({
+                bicicleta: bicicleta
+            })
+        }
+    });
+    
 }
 exports.bicicleta_update = function(req, res) {
-    let bici = Bicicleta.findById(req.body.id);
-    bici.color = req.body.color;
-    bici.modelo = req.body.modelo;
-    bici.ubicacion = req.body.ubicacion;
+    let bici = Bicicleta.findByCode(req.body.code,function(err,Oldbici){
+        if(err){
+            console.log(err);  
+            res.status(200).send(`error al actualizar el registro ${err}` )
+        }else{
+        Oldbici.color = req.body.color;
+        Oldbici.modelo = req.body.modelo;
+        Oldbici.ubicacion = req.body.ubicacion;
+        Oldbici.save();
+        res.status(200).json({
+            bicicleta: Oldbici
+        });
+        }
+        
+    });
+    // console.log(bici);
+    
 
-    res.status(200).json({
-        bicicleta: bici
-    })
+    
 }
 exports.bicicleta_delete = function(req, res) {
-    console.log(req.body.id);
-    Bicicleta.removeById(req.body.id);
-    res.status(204).send();
+    Bicicleta.removeByCode(req.body.code,function(err,DeleteBici) {
+        if(err){
+            console.log(err)
+            res.status(400).send(`error: ${err}`);    
+        }else{
+            console.log(DeleteBici);
+            res.status(202).send(`se elimino la bicicleta con el codigo : ${req.body.code}`);        
+        }
+        
+    });
+    
 }

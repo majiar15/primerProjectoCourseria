@@ -9,9 +9,11 @@ exports.usuario_list = function(req,res) {
     });
 }
 exports.usuario_create = function(req,res) {
+        
     let usuario = new Usuario({nombre: req.body.nombre});
-    usuario.save(function(err) {
-        res.status(200).json(usuario);
+    
+    usuario.save(function(err,newUsuario) {
+        res.status(200).json(newUsuario);
     });
 
 }
