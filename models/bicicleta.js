@@ -1,7 +1,7 @@
 let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 let BicicletaSchema = new Schema({
-    code: Number ,
+    code: Number,
     color: String,
     modelo: String,
     ubicacion: {
@@ -26,7 +26,7 @@ BicicletaSchema.statics.createInstance = function (code,color, modelo, ubicacion
 }
 
 BicicletaSchema.statics.allBicis = function(cb){
-    return this.find({},cb);
+     this.find({},cb);
 }
 
 BicicletaSchema.statics.add = function(bici,cb) {

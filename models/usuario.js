@@ -48,7 +48,7 @@ usuarioShema.pre('save',function(next) {
     next();
 });
 
-usuarioShema.method.validPassword = function(password) {
+usuarioShema.methods.validPassword = function(password) {
     return bcrypt.compareSync(password,this.password);
 }
 
@@ -68,7 +68,7 @@ usuarioShema.methods.enviar_email_bienvenida = function(cb) {
             from: 'no-reply@redBicicletas.com',
             to:email_destination,
             subject: 'Verificacion de cuenta',
-            text: "Hola\n\n" + 'por favor, para verificar su cuenta haga click en este enlace \n'+ "http://localhost:3000"+'/token/confirmation/'+token.token+'\n'
+            text: "Hola\n\n" + 'por favor, para verificar su cuenta haga click en este enlace \n'+ `http://localhost:3000/token/confirmation/${token.token}`
         };
 
         mailer.sendMail(mailOptions,function(err) {
@@ -78,4 +78,22 @@ usuarioShema.methods.enviar_email_bienvenida = function(cb) {
     });
 }
 
+usuarioShema.methods.resetPassword = function(cb) {
+    const token = new Token({_userId: this.id, token: crypto.randomBytes(16).toString('hex')});
+    const email_destination  = this.email;
+    token.save(function(err) {
+        if(err) return cb(err);
+        const mailOptions = {
+            from: 'no-reply@redBicicletas.com',
+            to:email_destination,
+            subject: 'reseteo de password de cuenta ',
+            text: "Hola\n\n" + 'por favor, para rastrear la password de  su cuenta haga click en este enlace \n'+ `http://localhost:3000/resetPassword/${token.token}`,
+        };
+        mailer.sendMail(mailOptions,function(err) {
+            if(err) return cb(err);
+            console.log("se ha enviado un email para recetear la password al correo : "+email_destination+'.');
+        });
+        cb(null);
+    });
+}
 module.exports = mongoose.model('Usuario',usuarioShema);

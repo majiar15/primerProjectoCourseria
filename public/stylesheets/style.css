@@ -2,3 +2,7 @@
     height: 500px;
     width: auto;
 }
+body{
+    padding: 50px;
+    padding-top: 5rem;
+}
