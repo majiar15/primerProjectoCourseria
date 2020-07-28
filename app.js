@@ -147,7 +147,9 @@ app.use('/api/auth', apiAuthRouter);
 app.use('/privaciti_policy',function(req,res) {
     res.sendfile('public/privaciti_policy.html');
 });
-
+app.use('/googlec4e77944661ba764',function(req,res) {
+    res.sendfile('public/googlec4e77944661ba764.html');
+});
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     next(createError(404));
