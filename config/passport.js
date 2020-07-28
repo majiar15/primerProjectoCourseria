@@ -2,7 +2,7 @@ const Passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const Usuario = require('../models/usuario');
 const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+const GoogleStrategy = require('passport-google-oauth2').Strategy;
 
 Passport.use(new LocalStrategy(
     function(email, password, done) {
@@ -17,8 +17,8 @@ Passport.use(new LocalStrategy(
 ));
 
 passport.use(new GoogleStrategy({
-    clientID: GOOGLE_CLIENT_ID,
-    clientSecret: GOOGLE_CLIENT_SECRET,
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: "http://www.example.com/auth/google/callback"
   },
   function(accessToken, refreshToken, profile, cb) {
