@@ -7,6 +7,7 @@ var logger = require('morgan');
 let passport = require('./config/passport'); 
 const session = require('express-session');
 const jwt = require('jsonwebtoken');
+const MongoDbStore = require('connect-mongodb-session')(session);
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/user');
@@ -16,7 +17,19 @@ let apiBicicletasRouter = require('./routes/api/bicicletas');
 let apiUsuariosRouter = require('./routes/api/usuario');
 let apiAuthRouter =  require('./routes/api/auth');
 
-const Store = session.MemoryStore();
+let Store;
+if(process.env.NODE_ENV ==="development"){
+    Store = new session.MemoryStore;
+}else{
+    Store = new MongoDbStore({
+        uri: process.env.MONGO_URI,
+        collection: 'sessions'
+    });
+    Store.on('error',function(error) {
+        assert.ifError(error);
+        assert.ok(false);
+    })
+}
 
 var app = express();
 
@@ -32,6 +45,7 @@ app.use(session({
 let mongoose = require('mongoose');
 const usuario = require('./models/usuario');
 const token = require('./models/token');
+const { assert } = require('console');
 
 let mongoDB = process.env.MONGO_URI;
 mongoose.connect(mongoDB,{useNewUrlParser:true, useUnifiedTopology:true});
@@ -150,6 +164,19 @@ app.use('/privaciti_policy',function(req,res) {
 app.use('/googlec4e77944661ba764',function(req,res) {
     res.sendfile('public/googlec4e77944661ba764.html');
 });
+
+
+app.get('/auth/google',
+  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }
+));
+app.get('/auth/google/callback', 
+  passport.authenticate('google', { failureRedirect: '/error' }),
+  function(req, res) {
+    res.redirect('/');
+});
+
+
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     next(createError(404));
