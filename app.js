@@ -167,7 +167,7 @@ app.use('/googlec4e77944661ba764',function(req,res) {
 
 
 app.get('/auth/google',
-  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }
+  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login','profile','email'] }
 ));
 app.get('/auth/google/callback', 
   passport.authenticate('google', { failureRedirect: '/error' }),
