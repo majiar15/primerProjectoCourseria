@@ -12,7 +12,7 @@ if(process.env.NODE_ENV === "production"){
     }
     mailConfig = sgTransport(option);
 }else{
-    if(process.env.NODE_ENV === "starting"){
+    if(process.env.NODE_ENV === "staging"){
         console.log('XXXXXXXXXXXX');
         const option = {
             auth:{
