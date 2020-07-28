@@ -2,23 +2,23 @@ const nodemailer = require('nodemailer');
 const sgTransport = require('nodemailer-sendgrid-transport');
 
 let mailConfig;
-if(process.env.NODE_ENV === "production"){
-    const option ={
-        auth:{
-            api_key: process.env.SENDGRID_API_SECRECT
-        }
-    }
-    mailConfig = sgTransport(option);
-}else{
-    if(process.env.NODE_ENV === "staging"){
-        console.log('XXXXXXXXXXXX');
-        const option = {
-            auth:{
-                api_key: process.env.SENDGRID_API_SECRECT
-            }
-        }
-        mailConfig = sgTransport(option);
-    }else{
+// if(process.env.NODE_ENV === "production"){
+//     const option ={
+//         auth:{
+//             api_key: process.env.SENDGRID_API_SECRECT
+//         }
+//     }
+//     mailConfig = sgTransport(option);
+// }else{
+//     if(process.env.NODE_ENV === "staging"){
+//         console.log('XXXXXXXXXXXX');
+//         const option = {
+//             auth:{
+//                 api_key: process.env.SENDGRID_API_SECRECT
+//             }
+//         }
+//         mailConfig = sgTransport(option);
+//     }else{
         //all main send ethereal 
         
         mailerConfig = {
@@ -29,9 +29,9 @@ if(process.env.NODE_ENV === "production"){
                 pass: process.env.ETHEREAL_PASSWORD
             }
         }
-    }
+    // }
 
-}
+// }
 
 
 
