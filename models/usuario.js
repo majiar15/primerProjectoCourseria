@@ -142,7 +142,7 @@ usuarioShema.statics.findOrCreateByFacebook = function(condition, callback) {
             console.log(condition);
             let values = {};
             values.facebookId = condition.id;
-            values.email = "dyejxeahri_1596041841@tfbnw.net"	;  
+            values.email = "dyejxeahri_1596041841@tfbnw.net";  
             values.nombre = condition.displayName || 'SIN NOMBRE';
             values.verificado = true;
             values.password = crypto.randomBytes(16).toString('hex');
