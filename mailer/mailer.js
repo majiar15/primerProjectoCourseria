@@ -19,7 +19,7 @@ if(process.env.NODE_ENV === "production"){
         }
         mailConfig = sgTransport(option);
     }else{
-        all main send ethereal 
+        // all main send ethereal 
         
         mailerConfig = {
             host: 'smtp.ethereal.email',
