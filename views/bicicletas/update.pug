@@ -11,7 +11,7 @@ block content
     br
     br
 
-    form(action=`http://localhost:3000/bicicletas/${bici.id}/update` method="POST")
+    form(action=`/bicicletas/${bici.id}/update` method="POST")
         label(for="id") Id
         input#id(type="text", name="id" value=bici.id)
         br
