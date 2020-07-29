@@ -1,5 +1,8 @@
 # primerProjectoCoursera
 proyecto del curso node js de coursera
+#link de la aplicacion publicada 
+
+https://red-bicicleta-majiar.herokuapp.com/
 
 ## semana 1 
 Endpoints 
